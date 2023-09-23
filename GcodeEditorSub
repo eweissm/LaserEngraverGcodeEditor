@@ -1,0 +1,42 @@
+Sub editGcode()
+
+'define vars
+Dim InputFileName As String
+Dim OutputFileName As String
+Dim TargetString As String
+Dim NewString As String
+Dim TextFile As Integer
+Dim FileContent As String
+
+'get address of input and output files
+InputFileName = "C:\Users\Ericw\Desktop\pumpkinTest3.gc"
+OutputFileName = "C:\Users\Ericw\Desktop\pumpkinTest3_edit.gc"
+
+'define file we are opening as freefile
+TextFile = FreeFile
+
+'open file and mark it as TextFile
+Open InputFileName For Input As TextFile
+
+'Store file content inside a variable
+  FileContent = Input(LOF(TextFile), TextFile)
+
+'Close Text File
+  Close TextFile
+
+'Find/Replace necessary lines
+  FileContent = Replace(FileContent, "M106 S204", "G4 P25" & vbNewLine & "M106 S204")
+FileContent = Replace(FileContent, "M106 S0", "M106 S0" & vbNewLine & "G4 P25")
+
+  TextFile = FreeFile
+  
+ Open OutputFileName For Output As TextFile
+ 
+'Write New Text data to file
+  Print #TextFile, FileContent
+
+'Close Text File
+  Close TextFile
+  
+End Sub
+
